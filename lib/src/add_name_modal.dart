@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:state_management_lab/main.dart';
+import 'package:provider/provider.dart';
+import 'package:state_management_lab/src/home_change_notifier_controller.dart';
 
-class AddNameModal extends ConsumerWidget {
+class AddNameModal extends StatelessWidget {
   const AddNameModal({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: [
-        const Text('Add a new Name'),
-        TextField(
-          onChanged: ref
-              .read(homeStateNotifierControllerProvider.notifier)
-              .onInputNameChanged,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            ref.read(homeStateNotifierControllerProvider.notifier).addName();
-            Navigator.of(context).pop();
-          },
-          child: const Text('add'),
-        ),
-      ],
+  Widget build(BuildContext context) {
+    return Consumer<HomeChangeNotifierController>(
+      builder: (context, controller, child) => Column(
+        children: [
+          const Text('Add a new Name'),
+          TextField(
+            onChanged: controller.onInputNameChanged,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              controller.addName();
+              Navigator.of(context).pop();
+            },
+            child: const Text('add'),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:state_management_lab/main.dart';
+import 'package:provider/provider.dart';
 import 'package:state_management_lab/src/add_name_modal.dart';
 import 'package:state_management_lab/src/counter_display.dart';
+import 'package:state_management_lab/src/home_change_notifier_controller.dart';
 import 'package:state_management_lab/src/names_display.dart';
 
-class MyHomePage extends ConsumerWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -30,11 +30,12 @@ class MyHomePage extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:
-            ref.read(homeStateNotifierControllerProvider.notifier).increment,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: Consumer<HomeChangeNotifierController>(
+        builder: (context, controller, child) => FloatingActionButton(
+          onPressed: controller.increment,
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
